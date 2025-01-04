@@ -12,7 +12,10 @@ void main() async {
   Bloc.observer = MyBlocObserver();
   runApp(
     DevicePreview(
-      builder: (context) => const QuizApp(),
+      builder: (context) => BlocProvider(
+        create: (context) => QuizCubit(),
+        child: const QuizApp(),
+      ),
     ),
   );
 }
@@ -22,18 +25,15 @@ class QuizApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => QuizCubit(),
-      child: MaterialApp(
-        initialRoute: WelcomeScreen.routeName,
-        debugShowCheckedModeBanner: false,
-        navigatorKey: GlobalKey<NavigatorState>(),
-        routes: {
-          WelcomeScreen.routeName: (context) => const WelcomeScreen(),
-          ResultScreen.routeName: (context) => const ResultScreen(),
-          QuizScreen.routeName: (context) => const QuizScreen(),
-        },
-      ),
+    return MaterialApp(
+      initialRoute: WelcomeScreen.routeName,
+      debugShowCheckedModeBanner: false,
+      navigatorKey: GlobalKey<NavigatorState>(),
+      routes: {
+        WelcomeScreen.routeName: (context) => const WelcomeScreen(),
+        ResultScreen.routeName: (context) => const ResultScreen(),
+        QuizScreen.routeName: (context) => const QuizScreen(),
+      },
     );
   }
 }
