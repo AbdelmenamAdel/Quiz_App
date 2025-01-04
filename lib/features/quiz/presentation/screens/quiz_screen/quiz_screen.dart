@@ -4,7 +4,6 @@ import 'package:quiz/core/widgets/custom_button.dart';
 import 'package:quiz/core/widgets/progress_timer.dart';
 import 'package:quiz/core/widgets/question_card.dart';
 import 'package:quiz/features/quiz/presentation/managers/quiz_cubit/quiz_cubit.dart';
-import 'package:quiz/features/quiz/presentation/managers/quiz_cubit/quiz_state.dart';
 
 class QuizScreen extends StatefulWidget {
   const QuizScreen({super.key});

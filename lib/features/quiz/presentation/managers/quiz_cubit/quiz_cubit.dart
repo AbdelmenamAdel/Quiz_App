@@ -5,8 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quiz/features/quiz/data/models/answer_model.dart';
 import 'package:quiz/features/quiz/data/models/question_model.dart';
-import 'package:quiz/features/quiz/presentation/managers/quiz_cubit/quiz_state.dart';
 import 'package:quiz/features/quiz/presentation/screens/result_screen/result_screen.dart';
+
+part 'quiz_state.dart';
 
 class QuizCubit extends Cubit<QuizState> {
   QuizCubit() : super(InitialState());
