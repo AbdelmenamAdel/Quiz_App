@@ -21,12 +21,13 @@ class QuizCubit extends Cubit<QuizState> {
   final int maxSec = 15;
   List<Question> list = [];
   PageController pageController = PageController(initialPage: 0);
-  int _countOfCorrectAnswers = 0;
-
-  int get countOfCorrectAnswers => _countOfCorrectAnswers;
 
   double get numberOfQuestion => _numberOfQuestion;
   int? get selectedAnswer => _selectedAnswer;
+
+  int _countOfCorrectAnswers = 0;
+
+  int get countOfCorrectAnswers => _countOfCorrectAnswers;
 
   List<Question> get questionsList {
     if (list.isEmpty) {
@@ -56,6 +57,10 @@ class QuizCubit extends Cubit<QuizState> {
       ]);
     }
     return list;
+  }
+
+  double get scoreResult {
+    return _countOfCorrectAnswers * 100 / questionsList.length;
   }
 
   // Get color for an answer
@@ -102,10 +107,6 @@ class QuizCubit extends Cubit<QuizState> {
     });
   }
 
-  double get scoreResult {
-    return _countOfCorrectAnswers * 100 / questionsList.length;
-  }
-
   // Go to the next question
   void nextQuestion(BuildContext context) {
     log('Next question triggered!');
@@ -114,32 +115,27 @@ class QuizCubit extends Cubit<QuizState> {
       stopTimer();
     }
 
-    if ((pageController.page ?? 0).toInt() == questionsList.length - 1) {
-      Navigator.pushReplacementNamed(context, ResultScreen.routeName);
-      resetState(); // Reset the state of the quiz
-      pageController.jumpToPage(0); // Go back to the first question
+    if ((pageController.page ?? 0) == questionsList.length - 1) {
+      Navigator.pushNamed(context, ResultScreen.routeName);
+      resetState();
     } else {
       _isPressed = false;
       _selectedAnswer = null;
 
       if (pageController.hasClients) {
-        pageController
-            .nextPage(
+        pageController.nextPage(
           duration: const Duration(milliseconds: 500),
           curve: Curves.linear,
-        )
-            .then((_) {
-          // Update question number after page transition
-          _numberOfQuestion = ((pageController.page ?? 0) + 1).toDouble();
-          emit(QuestionUpdatedState(_numberOfQuestion));
-        });
+        );
       }
 
       startTimer(context);
     }
+
+    _numberOfQuestion = (pageController.page ?? 0) + 2;
   }
 
-// Start the timer
+  // Start the timer
   void startTimer(BuildContext context) {
     emit(TimerRunning(maxSec));
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
@@ -169,7 +165,7 @@ class QuizCubit extends Cubit<QuizState> {
     _isPressed = false;
     _selectedAnswer = null;
     _numberOfQuestion = 1;
-    _countOfCorrectAnswers = 0;
+
     if (pageController.hasClients) {
       pageController.jumpToPage(0); // Reset to the first page
     }
