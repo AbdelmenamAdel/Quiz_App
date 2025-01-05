@@ -21,7 +21,7 @@ class CustomButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(15.0),
       ),
       child: FloatingActionButton.extended(
-        backgroundColor: KPrimaryColor,
+        backgroundColor: kPrimaryColor,
         icon: const Padding(
           padding: EdgeInsets.only(right: 3.0),
           child: Icon(Icons.arrow_forward_ios),
