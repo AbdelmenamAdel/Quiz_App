@@ -31,18 +31,18 @@ class AnswerOption extends StatelessWidget {
                   border:
                       Border.all(width: 3, color: controller.getColor(index))),
               child: Padding(
-                padding: const EdgeInsets.all(15.0),
+                padding: const EdgeInsets.all(8.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     RichText(
                       text: TextSpan(
                           text: '${index + 1}. ',
-                          style: Theme.of(context).textTheme.titleLarge,
+                          style: Theme.of(context).textTheme.titleMedium,
                           children: [
                             TextSpan(
                               text: answerModel.answer,
-                              style: Theme.of(context).textTheme.titleLarge,
+                              style: Theme.of(context).textTheme.titleMedium,
                             ),
                           ]),
                     ),
