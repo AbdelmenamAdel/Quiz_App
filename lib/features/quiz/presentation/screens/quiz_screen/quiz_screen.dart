@@ -7,7 +7,6 @@ import 'package:quiz/features/quiz/presentation/managers/quiz_cubit/quiz_cubit.d
 
 class QuizScreen extends StatefulWidget {
   const QuizScreen({super.key});
-  static const routeName = '/quiz_screen';
 
   @override
   State<QuizScreen> createState() => _QuizScreenState();
@@ -96,7 +95,7 @@ class _QuizScreenState extends State<QuizScreen> {
                       height: 15,
                     ),
                     SizedBox(
-                      height: 450,
+                      height: 350,
                       child: PageView.builder(
                         scrollDirection: Axis.horizontal,
                         physics: const NeverScrollableScrollPhysics(),
@@ -107,12 +106,16 @@ class _QuizScreenState extends State<QuizScreen> {
                         itemCount: cubit.questionsList.length,
                       ),
                     ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    Image.asset(
-                      "assets/images/shf.png",
-                      height: 200,
+                    const Spacer(),
+                    Row(
+                      children: [
+                        const Spacer(flex: 1),
+                        Image.asset(
+                          "assets/images/shf.png",
+                          height: 200,
+                        ),
+                        const Spacer(flex: 3),
+                      ],
                     ),
                   ],
                 ),
