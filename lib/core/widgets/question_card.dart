@@ -16,14 +16,14 @@ class QuestionCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Container(
-          height: 450,
-          margin: const EdgeInsets.symmetric(horizontal: 20.0),
+          height: 350,
+          margin: const EdgeInsets.symmetric(horizontal: 12.0),
           decoration: BoxDecoration(
             color: Colors.grey,
             borderRadius: BorderRadius.circular(25.0),
           ),
           child: Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: const EdgeInsets.all(12.0),
             child: Column(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.start,
@@ -33,7 +33,7 @@ class QuestionCard extends StatelessWidget {
                   questionModel.question,
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
-                //const SizedBox(height: 15),
+                const SizedBox(height: 8),
                 const Spacer(
                   flex: 1,
                 ),
