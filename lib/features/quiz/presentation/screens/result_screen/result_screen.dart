@@ -7,7 +7,6 @@ import 'package:quiz/features/quiz/presentation/managers/quiz_cubit/quiz_cubit.d
 
 class ResultScreen extends StatelessWidget {
   const ResultScreen({super.key});
-  static const routeName = '/result_screen';
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +35,7 @@ class ResultScreen extends StatelessWidget {
               Text(
                 context.read<QuizCubit>().name,
                 style: Theme.of(context).textTheme.displaySmall!.copyWith(
-                      color: KPrimaryColor,
+                      color: kPrimaryColor,
                     ),
               ),
               const SizedBox(
@@ -54,19 +53,23 @@ class ResultScreen extends StatelessWidget {
               Text(
                 '${context.read<QuizCubit>().scoreResult.round()}%',
                 style: Theme.of(context).textTheme.displaySmall!.copyWith(
-                      color: KPrimaryColor,
+                      color: kPrimaryColor,
                     ),
               ),
               const SizedBox(
                 height: 30,
               ),
               CustomButton(
-                  onPressed: () {
-                    Navigator.pushReplacementNamed(
-                        context, WelcomeScreen.routeName);
-                    // context.read<QuizCubit>().countOfCorrectAnswers = 0;
-                  },
-                  text: 'Start Again'),
+                onPressed: () {
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const WelcomeScreen(),
+                      ));
+                },
+                text: 'Start Again',
+                width: 200,
+              ),
             ],
           ),
         ),
