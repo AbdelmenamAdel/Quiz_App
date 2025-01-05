@@ -13,7 +13,7 @@ class ProgressTimer extends StatelessWidget {
         int secondsRemaining = 0;
         double progressValue = 1.0;
 
-        if (state is TimerInitial || state is TimerStopped) {
+        if (state is TimerStopped) {
           secondsRemaining = 0; // Safe cast
         } else if (state is TimerRunning) {
           secondsRemaining = state.secondsRemaining;
@@ -30,7 +30,7 @@ class ProgressTimer extends StatelessWidget {
             children: [
               CircularProgressIndicator(
                 value: progressValue,
-                color: KPrimaryColor,
+                color: kPrimaryColor,
                 backgroundColor: Colors.grey,
                 strokeWidth: 8,
               ),
@@ -40,7 +40,7 @@ class ProgressTimer extends StatelessWidget {
                   style: Theme.of(context)
                       .textTheme
                       .titleLarge!
-                      .copyWith(color: KPrimaryColor),
+                      .copyWith(color: kPrimaryColor),
                 ),
               ),
             ],
