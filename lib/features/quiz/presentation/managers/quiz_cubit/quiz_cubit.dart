@@ -33,28 +33,84 @@ class QuizCubit extends Cubit<QuizState> {
   List<Question> get questionsList {
     if (list.isEmpty) {
       list.addAll([
-        Question('Who invented Flutter?', 1, [
+        // Question 1
+        Question('What does Flutter primarily target?', 1, [
+          Answer(answer: 'Web applications'),
+          Answer(answer: 'Mobile applications', isCorrect: true),
+          Answer(answer: 'Desktop applications'),
+          Answer(answer: 'Server-side apps'),
+        ]),
+
+        // Question 2
+        Question('What does `build()` do?', 2, [
+          Answer(answer: 'Creates widget tree', isCorrect: true),
+          Answer(answer: 'Renders widget UI'),
+          Answer(answer: 'Handles state changes'),
+          Answer(answer: 'Sets widget properties'),
+        ]),
+
+        // Question 3
+        Question('Which widget is scrollable?', 3, [
+          Answer(answer: 'Column'),
+          Answer(answer: 'ListView', isCorrect: true),
+          Answer(answer: 'Container'),
+          Answer(answer: 'TextField'),
+        ]),
+
+        // Question 4
+        Question('What does `setState()` do?', 4, [
+          Answer(answer: 'Rebuilds app'),
+          Answer(answer: 'Changes global state'),
+          Answer(answer: 'Sets widget layout'),
+          Answer(answer: 'Triggers UI update', isCorrect: true),
+        ]),
+
+        // Question 5
+        Question('Who invented Flutter?', 5, [
           Answer(answer: 'Google', isCorrect: true),
           Answer(answer: 'Samsung'),
           Answer(answer: 'Apple'),
           Answer(answer: 'Microsoft'),
         ]),
-        Question('When was Flutter invented?', 2, [
+
+        // Question 6
+        Question('When was Flutter invented?', 6, [
           Answer(answer: '2014'),
           Answer(answer: '2009'),
           Answer(answer: '2013'),
           Answer(answer: '2017', isCorrect: true),
         ]),
-        Question(
-          'What is the name of the widget used to create a button in Flutter?',
-          3,
-          [
-            Answer(answer: 'Animated Button'),
-            Answer(answer: 'Material Button', isCorrect: true),
-            Answer(answer: 'Elevated Button'),
-            Answer(answer: 'All of the above'),
-          ],
-        ),
+        // Question 7
+        Question('Why use `FutureBuilder`?', 7, [
+          Answer(answer: 'Handles async data', isCorrect: true),
+          Answer(answer: 'Simplifies layouts'),
+          Answer(answer: 'Handles UI updates'),
+          Answer(answer: 'Updates app state'),
+        ]),
+
+        // Question 8
+        Question('Which Flutter widget is used for layout in a layer?', 8, [
+          Answer(answer: 'Column'),
+          Answer(answer: 'Stack', isCorrect: true),
+          Answer(answer: 'Row'),
+          Answer(answer: 'ListView'),
+        ]),
+
+        // Question 9
+        Question('What does `async` keyword do?', 9, [
+          Answer(answer: 'Pauses function exe'),
+          Answer(answer: 'Defines synchronous'),
+          Answer(answer: 'Handles errors'),
+          Answer(answer: 'Runs asynchronously', isCorrect: true),
+        ]),
+
+        // Question 10
+        Question('Which package for state management is the best?', 10, [
+          Answer(answer: 'provider'),
+          Answer(answer: 'flutter_bloc', isCorrect: true),
+          Answer(answer: 'riverpod'),
+          Answer(answer: 'get_it'),
+        ]),
       ]);
     }
     return list;
@@ -101,6 +157,8 @@ class QuizCubit extends Cubit<QuizState> {
       _countOfCorrectAnswers++;
     }
     stopTimer();
+
+    // Added check to ensure pageController is valid and mounted
     Future.delayed(const Duration(milliseconds: 500)).then((_) {
       if (pageController.hasClients) {
         nextQuestion(context);
@@ -112,28 +170,39 @@ class QuizCubit extends Cubit<QuizState> {
   void nextQuestion(BuildContext context) {
     log('Next question triggered!');
 
-    if (_timer != null && _timer!.isActive) {
+    // Ensure no active timer before starting a new one
+    if (_timer?.isActive ?? false) {
       stopTimer();
     }
 
-    if ((pageController.page ?? 0) == questionsList.length - 1) {
-      Navigator.pushNamed(context, ResultScreen.routeName);
-      resetState();
-    } else {
-      _isPressed = false;
-      _selectedAnswer = null;
+    final currentPage = pageController.page?.toInt() ?? 0;
 
-      if (pageController.hasClients) {
-        pageController.nextPage(
-          duration: const Duration(milliseconds: 500),
-          curve: Curves.linear,
-        );
-      }
-
-      startTimer(context);
+    // Check if the last question has been reached
+    if (currentPage == questionsList.length - 1) {
+      stopTimer();
+      log('Quiz completed!');
+      Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (context) => const ResultScreen()));
+      Future.delayed(const Duration(milliseconds: 300)).then((_) {
+        resetState();
+      });
+      return;
     }
 
-    _numberOfQuestion = (pageController.page ?? 0) + 2;
+    // Reset answer state before showing the next question
+    _isPressed = false;
+    _selectedAnswer = null;
+
+    // Ensure pageController is valid before navigating
+    if (pageController.hasClients) {
+      pageController.nextPage(
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.linear,
+      );
+    }
+
+    _numberOfQuestion = currentPage + 2;
+    startTimer(context);
   }
 
   // Start the timer
@@ -165,13 +234,15 @@ class QuizCubit extends Cubit<QuizState> {
   void resetState() {
     _isPressed = false;
     _selectedAnswer = null;
+    _correctAnswer = null;
     _numberOfQuestion = 1;
+    _countOfCorrectAnswers = 0;
 
     if (pageController.hasClients) {
-      pageController.jumpToPage(0); // Reset to the first page
+      pageController.dispose();
     }
-
-    emit(InitialState()); // Reset state to the initial one
+    emit(InitialState());
+    pageController = PageController(initialPage: 4);
   }
 
   @override
