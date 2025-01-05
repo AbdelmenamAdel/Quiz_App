@@ -7,7 +7,6 @@ import '../../../../constants.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});
-  static const routeName = '/welcome_screen';
 
   @override
   State<WelcomeScreen> createState() => _WelcomeScreenState();
@@ -22,7 +21,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     FocusScope.of(context).unfocus();
     if (!_formkey.currentState!.validate()) return;
     _formkey.currentState!.save();
-    Navigator.pushReplacementNamed(context, QuizScreen.routeName);
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (_) => const QuizScreen()));
   }
 
   @override
@@ -54,7 +54,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       flex: 2,
                     ),
                     const Text('Let\'s start Quiz,',
-                        style: TextStyle(color: KPrimaryColor)),
+                        style: TextStyle(color: kPrimaryColor)),
                     Text(
                       'Enter your name to start',
                       style: Theme.of(context)
